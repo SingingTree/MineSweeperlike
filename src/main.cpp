@@ -1,6 +1,7 @@
 #include <iostream>
+#include "Board.h"
 
 int main(int argc, char** argv)
 {
-	std::cout << "Hello!";
+	Board board(10, 10, 2);
 }
