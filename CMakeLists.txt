@@ -1,5 +1,5 @@
-project (MineSweeperlike)
-cmake_minimum_required (VERSION 2.6)
+project(MineSweeperlike)
+cmake_minimum_required(VERSION 2.6)
 set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
 set(SDL2_PATH  CACHE STRING "Search path for SDL2")
 find_package(SDL2 REQUIRED)
