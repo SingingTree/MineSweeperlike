@@ -11,7 +11,11 @@ int main(int argc, char** argv)
 		return 1;
 	}
 
-	SDL_Delay(2000);
+	for(int i = 0; i < 5; ++i)
+	{
+		renderer.render();
+		SDL_Delay(1000);
+	}
 
 	renderer.quit();
 
