@@ -8,8 +8,10 @@ int main(int argc, char** argv)
 	Renderer renderer;
 	if(renderer.init() != 0)
 	{
+		renderer.quit();
 		return 1;
 	}
+	SDL_Texture *sprites = 
 
 	for(int i = 0; i < 5; ++i)
 	{
