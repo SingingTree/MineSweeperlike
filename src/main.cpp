@@ -11,7 +11,6 @@ int main(int argc, char** argv)
 		renderer.quit();
 		return 1;
 	}
-	SDL_Texture *sprites = 
 
 	for(int i = 0; i < 5; ++i)
 	{

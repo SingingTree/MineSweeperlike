@@ -34,6 +34,13 @@ int Renderer::init()
 		return 1;
 	}
 
+	tile_sprite_sheet = IMG_Load("TileSpriteSheet.png");
+	if(tile_sprite_sheet == NULL)
+	{
+		std::cout << "IMG_Load Error: " << IMG_GetError() << std::endl;
+		return 1;
+	}
+
 	return 0;
 }
 
@@ -45,6 +52,11 @@ void Renderer::render()
 
 void Renderer::quit()
 {
+	if(tile_sprite_sheet != NULL)
+	{
+		SDL_FreeSurface(tile_sprite_sheet);
+		tile_sprite_sheet = NULL;
+	}
 	if(internal_renderer != NULL)
 	{
 		SDL_DestroyRenderer(internal_renderer);
