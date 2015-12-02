@@ -12,10 +12,31 @@ int main(int argc, char** argv)
 		return 1;
 	}
 
-	for(int i = 0; i < 5; ++i)
+	bool running = true;
+	SDL_Event event;
+	while(running)
 	{
+		while(SDL_PollEvent(&event))
+		{
+			// Close window
+			if(event.type == SDL_QUIT)
+			{
+				running = false;
+			}
+			// Presses any key
+			if(event.type == SDL_KEYDOWN)
+			{
+				running = false;
+			}
+			// Click the mouse
+			if(event.type == SDL_MOUSEBUTTONDOWN)
+			{
+				running = false;
+			}
+
+		}
 		renderer.render();
-		SDL_Delay(1000);
+
 	}
 
 	renderer.quit();
