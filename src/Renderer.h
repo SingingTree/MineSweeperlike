@@ -17,8 +17,7 @@ public:
 private:
 	SDL_Window *window;
 	SDL_Renderer *internal_renderer;
-	SDL_Surface *window_surface;
-	SDL_Surface *tile_sprite_sheet;
+	SDL_Texture *tile_sprite_sheet;
 };
 
 #endif //RENDERER_H

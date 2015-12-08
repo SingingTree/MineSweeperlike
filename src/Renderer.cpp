@@ -27,19 +27,22 @@ int Renderer::init()
 		return 1;
 	}
 
-	window_surface = SDL_GetWindowSurface(window);
-	if(window_surface == NULL)
-	{
-		std::cout << "SDL_GetWindowSurface Error: " << SDL_GetError() << std::endl;
-		return 1;
-	}
-
-	tile_sprite_sheet = IMG_Load("TileSpriteSheet.png");
-	if(tile_sprite_sheet == NULL)
+	SDL_Surface *tile_sprite_surface = IMG_Load("TileSpriteSheet.png");
+	if(tile_sprite_surface == NULL)
 	{
 		std::cout << "IMG_Load Error: " << IMG_GetError() << std::endl;
 		return 1;
 	}
+
+	tile_sprite_sheet = SDL_CreateTextureFromSurface(internal_renderer, tile_sprite_surface);
+	if(tile_sprite_sheet == NULL) {
+		std::cout << "SDL_CreateTextureFromSurface Error: " << SDL_GetError() << std::endl;
+		SDL_FreeSurface(tile_sprite_surface);
+		return 1;
+	}
+
+	SDL_FreeSurface(tile_sprite_surface);
+	
 
 	return 0;
 }
@@ -54,7 +57,7 @@ void Renderer::quit()
 {
 	if(tile_sprite_sheet != NULL)
 	{
-		SDL_FreeSurface(tile_sprite_sheet);
+		SDL_DestroyTexture(tile_sprite_sheet);
 		tile_sprite_sheet = NULL;
 	}
 	if(internal_renderer != NULL)
