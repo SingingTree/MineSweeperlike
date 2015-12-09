@@ -11,13 +11,18 @@ public:
 	int init();
 	void render();
 	void quit();
-
-	SDL_Renderer* get_internal_renderer();
 	
 private:
 	SDL_Window *window;
 	SDL_Renderer *internal_renderer;
 	SDL_Texture *tile_sprite_sheet;
+
+	void render_sprite(
+		SDL_Renderer *renderer,
+		SDL_Texture *sprite_sheet,
+		SDL_Rect *clipping_rect,
+		int x,
+		int y);
 };
 
 #endif //RENDERER_H

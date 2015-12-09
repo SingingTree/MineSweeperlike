@@ -49,7 +49,13 @@ int Renderer::init()
 
 void Renderer::render()
 {
+	SDL_Rect clipping_rect;
+	clipping_rect.x = 0;
+	clipping_rect.y = 0;
+	clipping_rect.h = 256;
+	clipping_rect.w = 256;
 	SDL_RenderClear(internal_renderer);
+	render_sprite(internal_renderer, tile_sprite_sheet, &clipping_rect, 0, 0);
 	SDL_RenderPresent(internal_renderer);
 }
 
@@ -74,7 +80,17 @@ void Renderer::quit()
 	SDL_Quit();
 }
 
-SDL_Renderer * Renderer::get_internal_renderer()
+void Renderer::render_sprite (
+	SDL_Renderer *renderer,
+	SDL_Texture *sprite_sheet,
+	SDL_Rect *clipping_rect,
+	int x,
+	int y)
 {
-	return internal_renderer;
+	SDL_Rect destination;
+	destination.x = x;
+	destination.y = y;
+	destination.w = clipping_rect->w;
+	destination.h = clipping_rect->h;
+	SDL_RenderCopy(renderer, sprite_sheet, clipping_rect, &destination);
 }
