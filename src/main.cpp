@@ -35,7 +35,7 @@ int main(int argc, char** argv)
 			}
 
 		}
-		renderer.render();
+		renderer.render(board);
 
 	}
 

@@ -8,6 +8,8 @@ public:
 	unsigned int const DIMENSION_MAX = 5000;
 	enum Tile { BOMB, EMPTY };
 	Board(unsigned int board_width, unsigned int board_height, unsigned int num_bombs);
+	int get_width();
+	int get_height();
 
 private:
 	unsigned int board_width;

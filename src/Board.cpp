@@ -16,6 +16,16 @@ Board::Board(unsigned int board_width, unsigned int board_height, unsigned int n
 	setup_board_random();
 }
 
+int Board::get_width()
+{
+	return board_width;
+}
+
+int Board::get_height()
+{
+	return board_height;
+}
+
 void Board::setup_board_random()
 {
 	unsigned int total_tiles = board_width * board_height;

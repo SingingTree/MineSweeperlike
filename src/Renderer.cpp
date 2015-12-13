@@ -47,7 +47,7 @@ int Renderer::init()
 	return 0;
 }
 
-void Renderer::render()
+void Renderer::render(Board &board)
 {
 	SDL_Rect clipping_rect;
 	clipping_rect.x = 0;
@@ -55,7 +55,7 @@ void Renderer::render()
 	clipping_rect.h = 256;
 	clipping_rect.w = 256;
 	SDL_RenderClear(internal_renderer);
-	render_sprite(internal_renderer, tile_sprite_sheet, &clipping_rect, 0, 0);
+	render_sprite(internal_renderer, tile_sprite_sheet, &clipping_rect, 0, 0, board);
 	SDL_RenderPresent(internal_renderer);
 }
 
@@ -80,17 +80,27 @@ void Renderer::quit()
 	SDL_Quit();
 }
 
+std::tuple<int, int> Renderer::get_sprite_dimensions(Board &board)
+{
+	int w;
+	int h;
+	SDL_GetWindowSize(window, &w, &h);
+	return std::tuple<int, int>(w / board.get_width(), h / board.get_height());
+}
+
 void Renderer::render_sprite (
 	SDL_Renderer *renderer,
 	SDL_Texture *sprite_sheet,
 	SDL_Rect *clipping_rect,
 	int x,
-	int y)
+	int y,
+	Board &board)
 {
 	SDL_Rect destination;
 	destination.x = x;
 	destination.y = y;
-	destination.w = clipping_rect->w;
-	destination.h = clipping_rect->h;
+	std::tuple<int, int> destination_dimensions = get_sprite_dimensions(board);
+	destination.w = std::get<0>(destination_dimensions);
+	destination.h = std::get<1>(destination_dimensions);
 	SDL_RenderCopy(renderer, sprite_sheet, clipping_rect, &destination);
 }
