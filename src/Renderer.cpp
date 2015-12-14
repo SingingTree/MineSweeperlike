@@ -49,13 +49,8 @@ int Renderer::init()
 
 void Renderer::render(Board &board)
 {
-	SDL_Rect clipping_rect;
-	clipping_rect.x = 0;
-	clipping_rect.y = 0;
-	clipping_rect.h = 256;
-	clipping_rect.w = 256;
 	SDL_RenderClear(internal_renderer);
-	render_sprite(internal_renderer, tile_sprite_sheet, &clipping_rect, 0, 0, board);
+	render_board(internal_renderer, board);
 	SDL_RenderPresent(internal_renderer);
 }
 
@@ -86,6 +81,30 @@ std::tuple<int, int> Renderer::get_sprite_dimensions(Board &board)
 	int h;
 	SDL_GetWindowSize(window, &w, &h);
 	return std::tuple<int, int>(w / board.get_width(), h / board.get_height());
+}
+
+void Renderer::render_board(SDL_Renderer * renderer, Board & board)
+{
+	SDL_Rect clipping_rect;
+	clipping_rect.x = 0;
+	clipping_rect.y = 0;
+	clipping_rect.h = 256;
+	clipping_rect.w = 256;
+	int sprite_width = std::get<0>(get_sprite_dimensions(board));
+	int sprite_height = std::get<1>(get_sprite_dimensions(board));
+	for(int row = 0; row < board.get_height(); ++row)
+	{
+		for(int col = 0; col < board.get_width(); ++col)
+		{
+			render_sprite(
+				internal_renderer,
+				tile_sprite_sheet,
+				&clipping_rect,
+				sprite_width * col,
+				sprite_height * row,
+				board);
+		}
+	}
 }
 
 void Renderer::render_sprite (

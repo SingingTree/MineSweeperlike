@@ -20,6 +20,7 @@ private:
 	SDL_Texture *tile_sprite_sheet;
 
 	std::tuple<int, int> get_sprite_dimensions(Board &board);
+	void render_board(SDL_Renderer *renderer, Board &board);
 	void render_sprite(
 		SDL_Renderer *renderer,
 		SDL_Texture *sprite_sheet,
