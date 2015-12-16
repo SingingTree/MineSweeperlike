@@ -15,7 +15,8 @@ private:
 	unsigned int board_width;
 	unsigned int board_height;
 	unsigned int num_bombs;
-	std::vector<Tile> tiles;
+	std::vector<Tile> bomb_map;
+	std::vector<int> bomb_adjacency_map;
 
 	void setup_board_random();
 };
