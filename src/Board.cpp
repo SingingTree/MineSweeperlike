@@ -26,6 +26,12 @@ int Board::get_height()
 	return board_height;
 }
 
+std::tuple<Board::Tile, int> Board::get_tile(int row, int col)
+{
+	size_t index = col + board_width * row;
+	return std::tuple<Board::Tile, int>(bomb_map.at(index), bomb_adjacency_map.at(index));
+}
+
 void Board::setup_board_random()
 {
 	unsigned int total_tiles = board_width * board_height;

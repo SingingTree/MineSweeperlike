@@ -83,25 +83,26 @@ std::tuple<int, int> Renderer::get_sprite_dimensions(Board &board)
 	return std::tuple<int, int>(w / board.get_width(), h / board.get_height());
 }
 
-void Renderer::render_board(SDL_Renderer * renderer, Board & board)
+void Renderer::render_board(SDL_Renderer *renderer, Board &board)
 {
 	SDL_Rect clipping_rect;
-	clipping_rect.x = 0;
-	clipping_rect.y = 0;
-	clipping_rect.h = 256;
-	clipping_rect.w = 256;
-	int sprite_width = std::get<0>(get_sprite_dimensions(board));
-	int sprite_height = std::get<1>(get_sprite_dimensions(board));
+	int sprite_screen_width = std::get<0>(get_sprite_dimensions(board));
+	int sprite_screen_height = std::get<1>(get_sprite_dimensions(board));
 	for(int row = 0; row < board.get_height(); ++row)
 	{
 		for(int col = 0; col < board.get_width(); ++col)
 		{
+			int adjacency = std::get<1>(board.get_tile(row, col));
+			clipping_rect.x = SPRITE_TEX_WIDTH * std::get<1>(number_sprite_row_col[adjacency]);
+			clipping_rect.y = SPRITE_TEX_HEIGHT * std::get<0>(number_sprite_row_col[adjacency]);
+			clipping_rect.w = SPRITE_TEX_WIDTH;
+			clipping_rect.h = SPRITE_TEX_HEIGHT;
 			render_sprite(
 				internal_renderer,
 				tile_sprite_sheet,
 				&clipping_rect,
-				sprite_width * col,
-				sprite_height * row,
+				sprite_screen_width * col,
+				sprite_screen_height * row,
 				board);
 		}
 	}
