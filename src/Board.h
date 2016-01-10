@@ -21,6 +21,7 @@ private:
 	std::vector<int> bomb_adjacency_map;
 
 	void setup_board_random();
+	void calculate_adjacency();
 };
 
 #endif //BOARD_H

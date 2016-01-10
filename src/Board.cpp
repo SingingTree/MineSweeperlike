@@ -14,6 +14,7 @@ Board::Board(unsigned int board_width, unsigned int board_height, unsigned int n
 		this->num_bombs = this->board_width * this->board_height - 1;
 	}
 	setup_board_random();
+	calculate_adjacency();
 }
 
 int Board::get_width()
@@ -32,26 +33,10 @@ std::tuple<Board::Tile, int> Board::get_tile(int row, int col)
 	return std::tuple<Board::Tile, int>(bomb_map.at(index), bomb_adjacency_map.at(index));
 }
 
-void Board::setup_board_random()
-{
-	unsigned int total_tiles = board_width * board_height;
-	unsigned int num_empty_tiles = total_tiles - num_bombs;
-
-	// Calculate bomb locations
-	for(unsigned int i = 0; i < num_bombs; ++i)
-	{
-		bomb_map.push_back(Tile::BOMB);
-	}
-	for(unsigned int i = 0; i < num_empty_tiles; ++i)
-	{
-		bomb_map.push_back(Tile::EMPTY);
-	}
-	unsigned int seed = std::chrono::system_clock::now().time_since_epoch().count();
-	std::default_random_engine engine(seed);
-	std::shuffle(std::begin(bomb_map), std::end(bomb_map), engine);
-	// Done calculating bomb locations
-
+void Board::calculate_adjacency() {
 	// Calculate adjacency
+	unsigned int total_tiles = board_width * board_height;
+
 	int adjacent_bombs, row, col, adjusted_index;
 	for(unsigned int i = 0; i < total_tiles; ++i)
 	{
@@ -80,4 +65,24 @@ void Board::setup_board_random()
 		}
 	}
 	// Done calculating adjacency
+}
+
+void Board::setup_board_random()
+{
+	unsigned int total_tiles = board_width * board_height;
+	unsigned int num_empty_tiles = total_tiles - num_bombs;
+
+	// Calculate bomb locations
+	for(unsigned int i = 0; i < num_bombs; ++i)
+	{
+		bomb_map.push_back(Tile::BOMB);
+	}
+	for(unsigned int i = 0; i < num_empty_tiles; ++i)
+	{
+		bomb_map.push_back(Tile::EMPTY);
+	}
+	unsigned int seed = std::chrono::system_clock::now().time_since_epoch().count();
+	std::default_random_engine engine(seed);
+	std::shuffle(std::begin(bomb_map), std::end(bomb_map), engine);
+	// Done calculating bomb locations
 }
