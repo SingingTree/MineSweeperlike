@@ -41,17 +41,18 @@ void Board::calculate_adjacency() {
 	for(unsigned int i = 0; i < total_tiles; ++i)
 	{
 		adjacent_bombs = 0;
-		row = i / board_width;
-		col = i % board_width;
+		std::tuple<unsigned int, unsigned int> row_col = index_to_coordinates(i);
+		row = std::get<0>(row_col);
+		col = std::get<1>(row_col);
 		for(int j = -1; j <= 1; ++j)
 		{
 			for(int k = -1; k <= 1; ++k)
 			{
-				if(row + j < 0 || row + j >= board_height)
+				if(row + j < 0 || row + j >= (signed) board_height)
 				{
 					break;
 				}
-				if(col + k < 0 || col + k >= board_width)
+				if(col + k < 0 || col + k >= (signed) board_width)
 				{
 					continue;
 				}
@@ -65,6 +66,18 @@ void Board::calculate_adjacency() {
 		}
 	}
 	// Done calculating adjacency
+}
+
+unsigned int Board::coordinates_to_index(unsigned int row, unsigned int col)
+{
+	return row * board_width + col;
+}
+
+std::tuple<unsigned int, unsigned int> Board::index_to_coordinates(unsigned int index)
+{
+	unsigned int row = index / board_width;
+	unsigned int col = index % board_width;
+	return std::tuple<unsigned int, unsigned int>(row, col);
 }
 
 void Board::setup_board_random()

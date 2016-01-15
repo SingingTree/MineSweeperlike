@@ -22,6 +22,8 @@ private:
 
 	void setup_board_random();
 	void calculate_adjacency();
+	unsigned int coordinates_to_index(unsigned int row, unsigned int col);
+	std::tuple<unsigned int, unsigned int> index_to_coordinates(unsigned int index);
 };
 
 #endif //BOARD_H
