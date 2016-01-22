@@ -11,7 +11,8 @@ class Renderer
 public:
 	int const SPRITE_TEX_WIDTH = 256;
 	int const SPRITE_TEX_HEIGHT = 256;
-	std::tuple<int, int> const number_sprite_row_col[8] = {
+	std::tuple<int, int> const number_sprite_row_col[9] = {
+		std::tuple<int, int>(2, 3),
 		std::tuple<int, int>(0, 0),
 		std::tuple<int, int>(0, 1),
 		std::tuple<int, int>(0, 2),
