@@ -13,7 +13,7 @@ Board::Board(unsigned int board_width, unsigned int board_height, unsigned int n
 	{
 		this->num_bombs = this->board_width * this->board_height - 1;
 	}
-	setup_board_random();
+	setup_board_random(num_bombs);
 	calculate_adjacency();
 }
 
@@ -80,7 +80,7 @@ std::tuple<unsigned int, unsigned int> Board::index_to_coordinates(unsigned int 
 	return std::tuple<unsigned int, unsigned int>(row, col);
 }
 
-void Board::setup_board_random()
+void Board::setup_board_random(unsigned int num_bombs)
 {
 	unsigned int total_tiles = board_width * board_height;
 	unsigned int num_empty_tiles = total_tiles - num_bombs;

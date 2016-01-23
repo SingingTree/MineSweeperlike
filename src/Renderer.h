@@ -22,6 +22,7 @@ public:
 		std::tuple<int, int>(1, 2),
 		std::tuple<int, int>(1, 3)
 	};
+	std::tuple<int, int> const bomb_sprite_row_col = std::tuple<int, int>(2, 0);
 
 	Renderer();
 	int init();

@@ -1,4 +1,5 @@
 #include "Renderer.h"
+#include "Board.h"
 #include <iostream>
 
 Renderer::Renderer() : window(NULL)
@@ -90,20 +91,37 @@ void Renderer::render_board(SDL_Renderer *renderer, Board &board)
 	int sprite_screen_height = std::get<1>(get_sprite_dimensions(board));
 	for(int row = 0; row < board.get_height(); ++row)
 	{
-		for(int col = 0; col < board.get_width(); ++col)
-		{
-			int adjacency = std::get<1>(board.get_tile(row, col));
-			clipping_rect.x = SPRITE_TEX_WIDTH * std::get<1>(number_sprite_row_col[adjacency]);
-			clipping_rect.y = SPRITE_TEX_HEIGHT * std::get<0>(number_sprite_row_col[adjacency]);
-			clipping_rect.w = SPRITE_TEX_WIDTH;
-			clipping_rect.h = SPRITE_TEX_HEIGHT;
-			render_sprite(
-				internal_renderer,
-				tile_sprite_sheet,
-				&clipping_rect,
-				sprite_screen_width * col,
-				sprite_screen_height * row,
-				board);
+		for(int col = 0; col < board.get_width(); ++col) {
+			std::tuple<Board::Tile, int> current_tile = board.get_tile(row, col);
+			if(std::get<0>(current_tile) == Board::Tile::BOMB)
+			{
+				clipping_rect.x = SPRITE_TEX_WIDTH * std::get<1>(bomb_sprite_row_col);
+				clipping_rect.y = SPRITE_TEX_HEIGHT * std::get<0>(bomb_sprite_row_col);
+				clipping_rect.w = SPRITE_TEX_WIDTH;
+				clipping_rect.h = SPRITE_TEX_HEIGHT;
+				render_sprite(
+					internal_renderer,
+					tile_sprite_sheet,
+					&clipping_rect,
+					sprite_screen_width * col,
+					sprite_screen_height * row,
+					board);
+			}
+			else
+			{
+				int adjacency = std::get<1>(current_tile);
+				clipping_rect.x = SPRITE_TEX_WIDTH * std::get<1>(number_sprite_row_col[adjacency]);
+				clipping_rect.y = SPRITE_TEX_HEIGHT * std::get<0>(number_sprite_row_col[adjacency]);
+				clipping_rect.w = SPRITE_TEX_WIDTH;
+				clipping_rect.h = SPRITE_TEX_HEIGHT;
+				render_sprite(
+					internal_renderer,
+					tile_sprite_sheet,
+					&clipping_rect,
+					sprite_screen_width * col,
+					sprite_screen_height * row,
+					board);
+			}
 		}
 	}
 }
