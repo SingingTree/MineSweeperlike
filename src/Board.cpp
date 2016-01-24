@@ -46,24 +46,24 @@ void Board::calculate_adjacency() {
 		col = std::get<1>(row_col);
 		for(int j = -1; j <= 1; ++j)
 		{
+			if(row + j < 0 || row + j >= (signed)board_height)
+			{
+				continue;
+			}
 			for(int k = -1; k <= 1; ++k)
 			{
-				if(row + j < 0 || row + j >= (signed) board_height)
-				{
-					break;
-				}
-				if(col + k < 0 || col + k >= (signed) board_width)
+				if(col + k < 0 || col + k >= (signed)board_width)
 				{
 					continue;
 				}
-				adjusted_index = i + (j * board_width) + k;
+				adjusted_index = coordinates_to_index(row + j, col + k);
 				if(bomb_map.at(adjusted_index) == Tile::BOMB)
 				{
 					++adjacent_bombs;
 				}
 			}
-			bomb_adjacency_map.push_back(adjacent_bombs);
 		}
+		bomb_adjacency_map.push_back(adjacent_bombs);
 	}
 	// Done calculating adjacency
 }
