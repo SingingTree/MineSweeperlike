@@ -86,6 +86,7 @@ std::tuple<int, int> Renderer::get_sprite_dimensions(Board &board)
 
 void Renderer::render_board(SDL_Renderer *renderer, Board &board)
 {
+	render_grid(renderer, board);
 	SDL_Rect clipping_rect;
 	int sprite_screen_width = std::get<0>(get_sprite_dimensions(board));
 	int sprite_screen_height = std::get<1>(get_sprite_dimensions(board));
@@ -121,6 +122,39 @@ void Renderer::render_board(SDL_Renderer *renderer, Board &board)
 					sprite_screen_width * col,
 					sprite_screen_height * row,
 					board);
+			}
+		}
+	}
+}
+
+void Renderer::render_grid(SDL_Renderer *renderer, Board &board)
+{
+	int w;
+	int h;
+	SDL_GetWindowSize(window, &w, &h);
+
+	int rows = board.get_height();
+	int cols = board.get_width();
+
+	int row_height_pixels = h / rows;
+	int col_width_pixels = w / cols;
+
+	SDL_SetRenderDrawColor(renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
+
+	// TODO handle errors?
+	for(int i = 0; i < rows - 1; ++i)
+	{
+		if(SDL_RenderDrawLine(renderer, 0, row_height_pixels * (i + 1), w, row_height_pixels * (i + 1)) != 0)
+		{
+			std::cout << "SDL_RenderDrawLine Error: " << SDL_GetError() << std::endl;
+			return;
+		}
+		for(int j = 0; j < cols - 1; ++j)
+		{
+			if(SDL_RenderDrawLine(renderer, col_width_pixels * (j + 1), 0, col_width_pixels * (j + 1), h) != 0)
+			{
+				std::cout << "SDL_RenderDrawLine Error: " << SDL_GetError() << std::endl;
+				return;
 			}
 		}
 	}

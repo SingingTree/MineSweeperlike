@@ -36,6 +36,7 @@ private:
 
 	std::tuple<int, int> get_sprite_dimensions(Board &board);
 	void render_board(SDL_Renderer *renderer, Board &board);
+	void render_grid(SDL_Renderer *renderer, Board &board);
 	void render_sprite(
 		SDL_Renderer *renderer,
 		SDL_Texture *sprite_sheet,
