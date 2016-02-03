@@ -86,7 +86,6 @@ std::tuple<int, int> Renderer::get_sprite_dimensions(Board &board)
 
 void Renderer::render_board(SDL_Renderer *renderer, Board &board)
 {
-	render_grid(renderer, board);
 	SDL_Rect clipping_rect;
 	int sprite_screen_width = std::get<0>(get_sprite_dimensions(board));
 	int sprite_screen_height = std::get<1>(get_sprite_dimensions(board));
@@ -125,6 +124,7 @@ void Renderer::render_board(SDL_Renderer *renderer, Board &board)
 			}
 		}
 	}
+	render_grid(renderer, board);
 }
 
 void Renderer::render_grid(SDL_Renderer *renderer, Board &board)
