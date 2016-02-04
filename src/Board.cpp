@@ -99,3 +99,12 @@ void Board::setup_board_random(unsigned int num_bombs)
 	std::shuffle(std::begin(bomb_map), std::end(bomb_map), engine);
 	// Done calculating bomb locations
 }
+
+void Board::setup_visibility()
+{
+	unsigned int total_tiles = board_width * board_height;
+	for(unsigned int i = 0; i < total_tiles; ++i)
+	{
+		visiblity_map.push_back(false);
+	}
+}

@@ -19,8 +19,10 @@ private:
 	unsigned int num_bombs;
 	std::vector<Tile> bomb_map;
 	std::vector<int> bomb_adjacency_map;
+	std::vector<bool> visiblity_map;
 
 	void setup_board_random(unsigned int num_bombs);
+	void setup_visibility();
 	void calculate_adjacency();
 	unsigned int coordinates_to_index(unsigned int row, unsigned int col);
 	std::tuple<unsigned int, unsigned int> index_to_coordinates(unsigned int index);
