@@ -2,6 +2,8 @@
 #include "Board.h"
 #include <iostream>
 
+#define RENDERER_DEBUG = true;
+
 Renderer::Renderer() : window(NULL)
 {
 }
@@ -92,7 +94,7 @@ void Renderer::render_board(SDL_Renderer *renderer, Board &board)
 	for(int row = 0; row < board.get_height(); ++row)
 	{
 		for(int col = 0; col < board.get_width(); ++col) {
-			std::tuple<Board::Tile, int> current_tile = board.get_tile(row, col);
+			std::tuple<Board::Tile, int, bool> current_tile = board.get_tile(row, col);
 			if(std::get<0>(current_tile) == Board::Tile::BOMB)
 			{
 				clipping_rect.x = SPRITE_TEX_WIDTH * std::get<1>(bomb_sprite_row_col);

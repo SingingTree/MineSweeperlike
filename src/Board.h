@@ -11,7 +11,7 @@ public:
 	Board(unsigned int board_width, unsigned int board_height, unsigned int num_bombs);
 	int get_width();
 	int get_height();
-	std::tuple<Tile, int> get_tile(int row, int col);
+	std::tuple<Tile, int, bool> get_tile(int row, int col);
 
 private:
 	unsigned int board_width;

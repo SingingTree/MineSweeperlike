@@ -13,6 +13,7 @@ Board::Board(unsigned int board_width, unsigned int board_height, unsigned int n
 	{
 		this->num_bombs = this->board_width * this->board_height - 1;
 	}
+	setup_visibility();
 	setup_board_random(num_bombs);
 	calculate_adjacency();
 }
@@ -27,10 +28,12 @@ int Board::get_height()
 	return board_height;
 }
 
-std::tuple<Board::Tile, int> Board::get_tile(int row, int col)
+std::tuple<Board::Tile, int, bool> Board::get_tile(int row, int col)
 {
-	size_t index = col + board_width * row;
-	return std::tuple<Board::Tile, int>(bomb_map.at(index), bomb_adjacency_map.at(index));
+	size_t index = coordinates_to_index(row, col);
+	return std::tuple<Board::Tile, int, bool>(bomb_map.at(index),
+										bomb_adjacency_map.at(index),
+										visiblity_map.at(index));
 }
 
 void Board::calculate_adjacency() {
