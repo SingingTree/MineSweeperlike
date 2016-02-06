@@ -23,6 +23,7 @@ public:
 		std::tuple<int, int>(1, 3)
 	};
 	std::tuple<int, int> const bomb_sprite_row_col = std::tuple<int, int>(2, 0);
+	std::tuple<int, int> const unknown_sprite_row_col = std::tuple<int, int>(2, 1);
 
 	Renderer();
 	int init();
@@ -35,8 +36,9 @@ private:
 	SDL_Texture *tile_sprite_sheet;
 
 	std::tuple<int, int> get_sprite_dimensions(Board &board);
-	void render_board(SDL_Renderer *renderer, Board &board);
-	void render_grid(SDL_Renderer *renderer, Board &board);
+	void render_board(Board &board);
+	void render_tiles(Board &board);
+	void render_grid(Board &board);
 	void render_sprite(
 		SDL_Renderer *renderer,
 		SDL_Texture *sprite_sheet,

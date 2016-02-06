@@ -2,7 +2,7 @@
 #include "Board.h"
 #include <iostream>
 
-#define RENDERER_DEBUG = true;
+#define RENDERER_DEBUG_SHOW_ALL
 
 Renderer::Renderer() : window(NULL)
 {
@@ -53,7 +53,7 @@ int Renderer::init()
 void Renderer::render(Board &board)
 {
 	SDL_RenderClear(internal_renderer);
-	render_board(internal_renderer, board);
+	render_board(board);
 	SDL_RenderPresent(internal_renderer);
 }
 
@@ -86,7 +86,7 @@ std::tuple<int, int> Renderer::get_sprite_dimensions(Board &board)
 	return std::tuple<int, int>(w / board.get_width(), h / board.get_height());
 }
 
-void Renderer::render_board(SDL_Renderer *renderer, Board &board)
+void Renderer::render_tiles(Board &board)
 {
 	SDL_Rect clipping_rect;
 	int sprite_screen_width = std::get<0>(get_sprite_dimensions(board));
@@ -95,6 +95,25 @@ void Renderer::render_board(SDL_Renderer *renderer, Board &board)
 	{
 		for(int col = 0; col < board.get_width(); ++col) {
 			std::tuple<Board::Tile, int, bool> current_tile = board.get_tile(row, col);
+#ifndef RENDERER_DEBUG_SHOW_ALL
+			if(!std::get<2>(current_tile))
+			{
+				// Tile not visible render unkown
+				clipping_rect.x = SPRITE_TEX_WIDTH * std::get<1>(unknown_sprite_row_col);
+				clipping_rect.y = SPRITE_TEX_HEIGHT * std::get<0>(unknown_sprite_row_col);
+				clipping_rect.w = SPRITE_TEX_WIDTH;
+				clipping_rect.h = SPRITE_TEX_HEIGHT;
+				render_sprite(
+					internal_renderer,
+					tile_sprite_sheet,
+					&clipping_rect,
+					sprite_screen_width * col,
+					sprite_screen_height * row,
+					board);
+				// Skip rendering other possibilities
+				continue;
+			}
+#endif
 			if(std::get<0>(current_tile) == Board::Tile::BOMB)
 			{
 				clipping_rect.x = SPRITE_TEX_WIDTH * std::get<1>(bomb_sprite_row_col);
@@ -126,10 +145,16 @@ void Renderer::render_board(SDL_Renderer *renderer, Board &board)
 			}
 		}
 	}
-	render_grid(renderer, board);
 }
 
-void Renderer::render_grid(SDL_Renderer *renderer, Board &board)
+void Renderer::render_board(Board &board)
+{
+	render_tiles(board);
+	// Render grid last so tiles don't overlap it
+	render_grid(board);
+}
+
+void Renderer::render_grid(Board &board)
 {
 	int w;
 	int h;
@@ -141,19 +166,19 @@ void Renderer::render_grid(SDL_Renderer *renderer, Board &board)
 	int row_height_pixels = h / rows;
 	int col_width_pixels = w / cols;
 
-	SDL_SetRenderDrawColor(renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
+	SDL_SetRenderDrawColor(internal_renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
 
 	// TODO handle errors?
 	for(int i = 0; i < rows - 1; ++i)
 	{
-		if(SDL_RenderDrawLine(renderer, 0, row_height_pixels * (i + 1), w, row_height_pixels * (i + 1)) != 0)
+		if(SDL_RenderDrawLine(internal_renderer, 0, row_height_pixels * (i + 1), w, row_height_pixels * (i + 1)) != 0)
 		{
 			std::cout << "SDL_RenderDrawLine Error: " << SDL_GetError() << std::endl;
 			return;
 		}
 		for(int j = 0; j < cols - 1; ++j)
 		{
-			if(SDL_RenderDrawLine(renderer, col_width_pixels * (j + 1), 0, col_width_pixels * (j + 1), h) != 0)
+			if(SDL_RenderDrawLine(internal_renderer, col_width_pixels * (j + 1), 0, col_width_pixels * (j + 1), h) != 0)
 			{
 				std::cout << "SDL_RenderDrawLine Error: " << SDL_GetError() << std::endl;
 				return;
