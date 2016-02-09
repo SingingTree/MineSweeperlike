@@ -1,11 +1,13 @@
 #include <iostream>
 #include "Board.h"
 #include "Renderer.h"
+#include "InputHandler.h"
 
 int main(int argc, char** argv)
 {
 	Board board(10, 10, 2);
 	Renderer renderer;
+	InputHandler inputHandler;
 	if(renderer.init() != 0)
 	{
 		renderer.quit();
@@ -31,7 +33,14 @@ int main(int argc, char** argv)
 			// Click the mouse
 			if(event.type == SDL_MOUSEBUTTONDOWN)
 			{
-				running = false;
+				std::tuple<int, int> click_pos(event.button.x, event.button.y);
+				std::tuple<int, int> row_and_col = inputHandler.row_col_from_click_coordinates(
+					board.get_height(),
+					board.get_width(),
+					renderer.get_window_dimensions(),
+					click_pos
+					);
+				std::cout << std::get<0>(row_and_col) << ", " << std::get<1>(row_and_col) << std::endl;
 			}
 
 		}

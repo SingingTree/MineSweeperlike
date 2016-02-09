@@ -29,6 +29,8 @@ public:
 	int init();
 	void render(Board &board);
 	void quit();
+
+	std::tuple<int, int> get_window_dimensions() const;
 	
 private:
 	SDL_Window *window;

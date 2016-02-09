@@ -78,6 +78,14 @@ void Renderer::quit()
 	SDL_Quit();
 }
 
+std::tuple<int, int> Renderer::get_window_dimensions() const
+{
+	int w;
+	int h;
+	SDL_GetWindowSize(window, &w, &h);
+	return std::tuple<int, int>(w, h);
+}
+
 std::tuple<int, int> Renderer::get_sprite_dimensions(Board &board)
 {
 	int w;
