@@ -18,17 +18,17 @@ Board::Board(unsigned int board_width, unsigned int board_height, unsigned int n
 	calculate_adjacency();
 }
 
-int Board::get_width()
+int Board::get_width() const
 {
 	return board_width;
 }
 
-int Board::get_height()
+int Board::get_height() const
 {
 	return board_height;
 }
 
-std::tuple<Board::Tile, int, bool> Board::get_tile(int row, int col)
+std::tuple<Board::Tile, int, bool> Board::get_tile(int row, int col) const
 {
 	size_t index = coordinates_to_index(row, col);
 	return std::tuple<Board::Tile, int, bool>(bomb_map.at(index),
@@ -71,12 +71,12 @@ void Board::calculate_adjacency() {
 	// Done calculating adjacency
 }
 
-unsigned int Board::coordinates_to_index(unsigned int row, unsigned int col)
+unsigned int Board::coordinates_to_index(unsigned int row, unsigned int col) const
 {
 	return row * board_width + col;
 }
 
-std::tuple<unsigned int, unsigned int> Board::index_to_coordinates(unsigned int index)
+std::tuple<unsigned int, unsigned int> Board::index_to_coordinates(unsigned int index) const
 {
 	unsigned int row = index / board_width;
 	unsigned int col = index % board_width;
