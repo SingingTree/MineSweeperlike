@@ -8,10 +8,12 @@ class Board
 public:
 	unsigned int const DIMENSION_MAX = 5000;
 	enum Tile { BOMB, EMPTY };
+	enum SelectionResult { ALREADY_SEEN, BOMBED, REVEALED };
 	Board(unsigned int board_width, unsigned int board_height, unsigned int num_bombs);
 	int get_width() const;
 	int get_height() const;
 	std::tuple<Tile, int, bool> get_tile(int row, int col) const;
+	SelectionResult select_tile(int row, int col);
 
 private:
 	unsigned int board_width;

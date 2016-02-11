@@ -36,6 +36,11 @@ std::tuple<Board::Tile, int, bool> Board::get_tile(int row, int col) const
 										visiblity_map.at(index));
 }
 
+Board::SelectionResult Board::select_tile(int row, int col)
+{
+	return SelectionResult::ALREADY_SEEN;
+}
+
 void Board::calculate_adjacency() {
 	// Calculate adjacency
 	unsigned int total_tiles = board_width * board_height;
