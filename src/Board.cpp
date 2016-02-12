@@ -38,7 +38,17 @@ std::tuple<Board::Tile, int, bool> Board::get_tile(int row, int col) const
 
 Board::SelectionResult Board::select_tile(int row, int col)
 {
-	return SelectionResult::ALREADY_SEEN;
+	int unsigned index = coordinates_to_index(row, col);
+	if(visiblity_map.at(index))
+	{
+		return SelectionResult::ALREADY_SEEN;
+	}
+	if(bomb_map.at(index))
+	{
+		make_all_visible();
+		return SelectionResult::BOMBED;
+	}
+	visiblity_map.at(index) = true;
 }
 
 void Board::calculate_adjacency() {
@@ -74,6 +84,14 @@ void Board::calculate_adjacency() {
 		bomb_adjacency_map.push_back(adjacent_bombs);
 	}
 	// Done calculating adjacency
+}
+
+void Board::make_all_visible()
+{
+	for(auto iter = visiblity_map.begin(); iter != visiblity_map.end(); ++iter)
+	{
+		*iter = true;
+	}
 }
 
 unsigned int Board::coordinates_to_index(unsigned int row, unsigned int col) const
