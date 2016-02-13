@@ -43,7 +43,7 @@ Board::SelectionResult Board::select_tile(int row, int col)
 	{
 		return SelectionResult::ALREADY_SEEN;
 	}
-	if(bomb_map.at(index))
+	if(bomb_map.at(index) == Tile::BOMB)
 	{
 		make_all_visible();
 		return SelectionResult::BOMBED;

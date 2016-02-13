@@ -5,8 +5,8 @@ std::tuple<int, int> InputHandler::row_col_from_click_coordinates(int number_row
 	int sprite_w = std::get<0>(window_dimensions) / number_cols;
 	int sprite_h = std::get<1>(window_dimensions) / number_rows;
 
-	int row = std::get<0>(click_position) / sprite_w;
-	int col = std::get<1>(click_position) / sprite_h;
+	int row = std::get<1>(click_position) / sprite_h;
+	int col = std::get<0>(click_position) / sprite_w;
 
 	return std::tuple<int, int>(row, col);
 }

@@ -2,7 +2,7 @@
 #include "Board.h"
 #include <iostream>
 
-#define RENDERER_DEBUG_SHOW_ALL
+//#define RENDERER_DEBUG_SHOW_ALL
 
 Renderer::Renderer() : window(NULL)
 {

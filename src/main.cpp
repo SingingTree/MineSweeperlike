@@ -40,6 +40,7 @@ int main(int argc, char** argv)
 					renderer.get_window_dimensions(),
 					click_pos
 					);
+				board.select_tile(std::get<0>(row_and_col), std::get<1>(row_and_col));
 				std::cout << std::get<0>(row_and_col) << ", " << std::get<1>(row_and_col) << std::endl;
 			}
 
