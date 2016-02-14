@@ -94,6 +94,12 @@ void Board::make_all_visible()
 	}
 }
 
+void Board::flood_fill_discover(unsigned int row, unsigned int col)
+{
+	unsigned int current_row = row;
+	unsigned int current_col = col;
+}
+
 unsigned int Board::coordinates_to_index(unsigned int row, unsigned int col) const
 {
 	return row * board_width + col;

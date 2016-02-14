@@ -27,6 +27,7 @@ private:
 	void setup_visibility();
 	void calculate_adjacency();
 	void make_all_visible();
+	void flood_fill_discover(unsigned int row, unsigned int col);
 	unsigned int coordinates_to_index(unsigned int row, unsigned int col) const;
 	std::tuple<unsigned int, unsigned int> index_to_coordinates(unsigned int index) const;
 };
