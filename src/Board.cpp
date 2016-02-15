@@ -55,7 +55,7 @@ void Board::calculate_adjacency() {
 	// Calculate adjacency
 	unsigned int total_tiles = board_width * board_height;
 
-	int adjacent_bombs, row, col, adjusted_index;
+	unsigned int adjacent_bombs, row, col, adjusted_index;
 	for(unsigned int i = 0; i < total_tiles; ++i)
 	{
 		adjacent_bombs = 0;
@@ -96,8 +96,54 @@ void Board::make_all_visible()
 
 void Board::flood_fill_discover(unsigned int row, unsigned int col)
 {
-	unsigned int current_row = row;
-	unsigned int current_col = col;
+	std::vector<std::tuple<unsigned int, unsigned int>> frontier;
+	frontier.push_back(std::tuple<unsigned int, unsigned int>(row, col));
+
+	unsigned int current_row, current_col, current_index, adjusted_index;
+	bool current_has_zero_adjascent_bombs;
+	std::tuple<unsigned int, unsigned int> current_row_col;
+
+	while(!frontier.empty())
+	{
+		current_row_col = frontier.back();
+		frontier.pop_back();
+		current_row = std::get<0>(current_row_col);
+		current_col = std::get<1>(current_row_col);
+		current_index = coordinates_to_index(current_row, current_col);
+		current_has_zero_adjascent_bombs = bomb_adjacency_map.at(current_index) == 0;
+
+		for(int i = -1; i <= 1; ++i)
+		{
+			if(current_row + i < 0 || current_row + i >= (signed)board_height)
+			{
+				continue;
+			}
+			for(int j = -1; j <= 1; ++j)
+			{
+				if(current_col + j < 0 || current_col + j >= (signed)board_width)
+				{
+					continue;
+				}
+				adjusted_index = coordinates_to_index(
+					current_row + i, current_col + j);
+				if(visiblity_map.at(adjusted_index))
+				{
+					// Already visible, and should have been flood filled
+					continue;
+				}
+				if(current_has_zero_adjascent_bombs)
+				{
+					// Can fill with 8 adjacency
+				}
+				else
+				{
+					// Fill with 4 adjacency and only 0 reveal 0 adjacent neighbours
+				}
+			}
+		}
+	}
+	
+
 }
 
 unsigned int Board::coordinates_to_index(unsigned int row, unsigned int col) const
