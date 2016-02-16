@@ -49,6 +49,7 @@ Board::SelectionResult Board::select_tile(int row, int col)
 		return SelectionResult::BOMBED;
 	}
 	visiblity_map.at(index) = true;
+	flood_fill_discover(row, col);
 }
 
 void Board::calculate_adjacency() {
@@ -134,6 +135,10 @@ void Board::flood_fill_discover(unsigned int row, unsigned int col)
 				if(current_has_zero_adjascent_bombs)
 				{
 					// Can fill with 8 adjacency
+					visiblity_map.at(adjusted_index) = true;
+					frontier.push_back(std::tuple<unsigned int, unsigned int>(
+						current_row + i,
+						current_col + j));
 				}
 				else
 				{
