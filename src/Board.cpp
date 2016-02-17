@@ -142,7 +142,18 @@ void Board::flood_fill_discover(unsigned int row, unsigned int col)
 				}
 				else
 				{
-					// Fill with 4 adjacency and only 0 reveal 0 adjacent neighbours
+					// Fill with 4 adjacency
+					if(i + j == 1 || i + j == -1)
+					{
+						// Only reveal 0 adjacent neighbours
+						if(bomb_adjacency_map.at(adjusted_index) == 0)
+						{
+							visiblity_map.at(adjusted_index) = true;
+							frontier.push_back(std::tuple<unsigned int, unsigned int>(
+								current_row + i,
+								current_col + j));
+						}
+					}
 				}
 			}
 		}
