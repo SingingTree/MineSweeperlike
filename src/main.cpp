@@ -45,6 +45,7 @@ int main(int argc, char** argv)
 			}
 
 		}
+		std::cout << board.get_game_state() << std::endl;
 		renderer.render(board);
 
 	}

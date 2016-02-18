@@ -1,6 +1,7 @@
 #include <algorithm>
 #include <random>
 #include <chrono>
+#include <numeric>
 #include "Board.h"
 
 Board::Board(unsigned int board_width, unsigned int board_height, unsigned int num_bombs) :
@@ -50,6 +51,15 @@ Board::SelectionResult Board::select_tile(int row, int col)
 	}
 	visiblity_map.at(index) = true;
 	flood_fill_discover(row, col);
+}
+
+Board::GameState Board::get_game_state()
+{
+	if(get_num_non_visible_tiles() == num_bombs)
+	{
+		return GameState::WON;
+	}
+	return GameState::ON_GOING;
 }
 
 void Board::calculate_adjacency() {
@@ -160,6 +170,12 @@ void Board::flood_fill_discover(unsigned int row, unsigned int col)
 	}
 	
 
+}
+
+unsigned int Board::get_num_non_visible_tiles()
+{
+	auto lambda = [](unsigned int a, bool b) {return a + b ? 1 : 0; };
+	return std::accumulate(visiblity_map.begin(), visiblity_map.end(), 0, lambda);
 }
 
 unsigned int Board::coordinates_to_index(unsigned int row, unsigned int col) const
