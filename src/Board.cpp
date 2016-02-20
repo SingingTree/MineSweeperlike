@@ -3,6 +3,7 @@
 #include <chrono>
 #include <numeric>
 #include "Board.h"
+#include <iostream>
 
 Board::Board(unsigned int board_width, unsigned int board_height, unsigned int num_bombs) :
 	board_width(board_width > DIMENSION_MAX ? DIMENSION_MAX : board_width),
@@ -174,14 +175,8 @@ void Board::flood_fill_discover(unsigned int row, unsigned int col)
 
 unsigned int Board::get_num_non_visible_tiles()
 {
-	unsigned int non_visibile_tiles = 0;
-	for(auto iter = visiblity_map.begin(); iter != visiblity_map.end(); ++iter)
-	{
-		non_visibile_tiles += *iter ? 0 : 1;
-	}
-	return non_visibile_tiles;
-	/*auto lambda = [](unsigned int a, bool b) {return a + b ? 0 : 1; };
-	return std::accumulate(visiblity_map.begin(), visiblity_map.end(), 0, lambda);*/
+	auto sum_falses = [](unsigned int a, bool b) {return a + (b ? 0 : 1); };
+	return std::accumulate(visiblity_map.begin(), visiblity_map.end(), 0u, sum_falses);
 }
 
 unsigned int Board::coordinates_to_index(unsigned int row, unsigned int col) const
