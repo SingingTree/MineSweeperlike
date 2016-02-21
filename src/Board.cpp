@@ -54,7 +54,7 @@ Board::SelectionResult Board::select_tile(int row, int col)
 	flood_fill_discover(row, col);
 }
 
-Board::GameState Board::get_game_state()
+Board::GameState Board::get_game_state() const
 {
 	if(get_num_non_visible_tiles() == num_bombs)
 	{
@@ -173,10 +173,15 @@ void Board::flood_fill_discover(unsigned int row, unsigned int col)
 
 }
 
-unsigned int Board::get_num_non_visible_tiles()
+unsigned int Board::get_num_visible_tiles() const
 {
-	auto sum_falses = [](unsigned int a, bool b) {return a + (b ? 0 : 1); };
-	return std::accumulate(visiblity_map.begin(), visiblity_map.end(), 0u, sum_falses);
+	auto sum_trues = [](unsigned int a, bool b) {return a + (b ? 1 : 0); };
+	return std::accumulate(visiblity_map.begin(), visiblity_map.end(), 0u, sum_trues);
+}
+
+unsigned int Board::get_num_non_visible_tiles() const
+{
+	return visiblity_map.size() - get_num_visible_tiles();
 }
 
 unsigned int Board::coordinates_to_index(unsigned int row, unsigned int col) const
