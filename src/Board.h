@@ -21,6 +21,7 @@ private:
 	unsigned int board_width;
 	unsigned int board_height;
 	unsigned int num_bombs;
+	bool reroll_board_if_first_move_is_bomb;
 	std::vector<Tile> bomb_map;
 	std::vector<int> bomb_adjacency_map;
 	std::vector<bool> visiblity_map;
@@ -28,6 +29,7 @@ private:
 	void setup_board_random(unsigned int num_bombs);
 	void setup_visibility();
 	void calculate_adjacency();
+	void setup_board();
 	void make_all_visible();
 	void flood_fill_discover(unsigned int row, unsigned int col);
 	unsigned int get_num_visible_tiles() const;

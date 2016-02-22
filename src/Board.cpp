@@ -8,16 +8,15 @@
 Board::Board(unsigned int board_width, unsigned int board_height, unsigned int num_bombs) :
 	board_width(board_width > DIMENSION_MAX ? DIMENSION_MAX : board_width),
 	board_height(board_height > DIMENSION_MAX ? DIMENSION_MAX : board_height),
-	num_bombs(num_bombs)
+	num_bombs(num_bombs),
+	reroll_board_if_first_move_is_bomb(true)
 {
 	// Make sure we don't have too many bombs
 	if(this->num_bombs > this->board_width * this->board_height)
 	{
 		this->num_bombs = this->board_width * this->board_height - 1;
 	}
-	setup_visibility();
-	setup_board_random(num_bombs);
-	calculate_adjacency();
+	setup_board();
 }
 
 int Board::get_width() const
@@ -45,10 +44,22 @@ Board::SelectionResult Board::select_tile(int row, int col)
 	{
 		return SelectionResult::ALREADY_SEEN;
 	}
+	
 	if(bomb_map.at(index) == Tile::BOMB)
 	{
-		make_all_visible();
-		return SelectionResult::BOMBED;
+		if(reroll_board_if_first_move_is_bomb && get_num_visible_tiles() == 0)
+		{
+			// If it's the first move and rerolls are enabled
+			while(bomb_map.at(index) == Tile::BOMB)
+			{
+				setup_board();
+			}
+		}
+		else
+		{
+			make_all_visible();
+			return SelectionResult::BOMBED;
+		}
 	}
 	visiblity_map.at(index) = true;
 	flood_fill_discover(row, col);
@@ -64,7 +75,7 @@ Board::GameState Board::get_game_state() const
 }
 
 void Board::calculate_adjacency() {
-	// Calculate adjacency
+	bomb_adjacency_map.clear();
 	unsigned int total_tiles = board_width * board_height;
 
 	unsigned int adjacent_bombs, row, col, adjusted_index;
@@ -96,6 +107,13 @@ void Board::calculate_adjacency() {
 		bomb_adjacency_map.push_back(adjacent_bombs);
 	}
 	// Done calculating adjacency
+}
+
+void Board::setup_board()
+{
+	setup_visibility();
+	setup_board_random(num_bombs);
+	calculate_adjacency();
 }
 
 void Board::make_all_visible()
@@ -169,13 +187,11 @@ void Board::flood_fill_discover(unsigned int row, unsigned int col)
 			}
 		}
 	}
-	
-
 }
 
 unsigned int Board::get_num_visible_tiles() const
 {
-	auto sum_trues = [](unsigned int a, bool b) {return a + (b ? 1 : 0); };
+	auto sum_trues = [](unsigned int a, bool b) {return a + (b ? 1u : 0u); };
 	return std::accumulate(visiblity_map.begin(), visiblity_map.end(), 0u, sum_trues);
 }
 
@@ -198,6 +214,7 @@ std::tuple<unsigned int, unsigned int> Board::index_to_coordinates(unsigned int 
 
 void Board::setup_board_random(unsigned int num_bombs)
 {
+	bomb_map.clear();
 	unsigned int total_tiles = board_width * board_height;
 	unsigned int num_empty_tiles = total_tiles - num_bombs;
 
@@ -218,6 +235,7 @@ void Board::setup_board_random(unsigned int num_bombs)
 
 void Board::setup_visibility()
 {
+	visiblity_map.clear();
 	unsigned int total_tiles = board_width * board_height;
 	for(unsigned int i = 0; i < total_tiles; ++i)
 	{
