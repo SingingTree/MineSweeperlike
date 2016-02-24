@@ -3,7 +3,6 @@
 #include <chrono>
 #include <numeric>
 #include "Board.h"
-#include <iostream>
 
 Board::Board(unsigned int board_width, unsigned int board_height, unsigned int num_bombs) :
 	board_width(board_width > DIMENSION_MAX ? DIMENSION_MAX : board_width),
