@@ -3,7 +3,11 @@
 
 InputHandler::Action InputHandler::handle_key(SDL_Event &event)
 {
-	return Action::QUIT;
+	if(event.key.keysym.scancode == SDL_SCANCODE_ESCAPE)
+	{
+		return Action::QUIT;
+	}
+	return Action::CONTINUE;
 }
 
 std::tuple<int, int> InputHandler::row_col_from_click_coordinates(int number_rows, int number_cols, std::tuple<int, int>& window_dimensions, SDL_Event &click_event)

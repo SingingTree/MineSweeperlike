@@ -3,10 +3,11 @@
 
 #include <tuple>
 
+// Converts inputs to high level game events
 class InputHandler
 {
 public:
-	enum Action {QUIT};
+	enum Action {CONTINUE, QUIT};
 	Action handle_key(SDL_Event &key_event);
 	std::tuple<int, int> row_col_from_click_coordinates(
 		int number_rows,
