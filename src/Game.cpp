@@ -1,6 +1,6 @@
 #include "Game.h"
 
-Game::Game() : board(10, 10, 2), renderer()
+Game::Game() : board(10, 10, 2), renderer(), gameState(IN_GAME)
 {
 }
 
