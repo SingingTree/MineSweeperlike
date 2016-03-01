@@ -9,9 +9,9 @@
 class Renderer
 {
 public:
-	int const SPRITE_TEX_WIDTH = 256;
-	int const SPRITE_TEX_HEIGHT = 256;
-	std::tuple<int, int> const number_sprite_row_col[9] = {
+	int const TILE_SPRITE_TEX_WIDTH = 256;
+	int const TILE_SPRITE_TEX_HEIGHT = 256;
+	std::tuple<int, int> const NUMBER_SPRITE_TEX_ROW_COL[9] = {
 		std::tuple<int, int>(2, 3),
 		std::tuple<int, int>(0, 0),
 		std::tuple<int, int>(0, 1),
@@ -22,8 +22,10 @@ public:
 		std::tuple<int, int>(1, 2),
 		std::tuple<int, int>(1, 3)
 	};
-	std::tuple<int, int> const bomb_sprite_row_col = std::tuple<int, int>(2, 0);
-	std::tuple<int, int> const unknown_sprite_row_col = std::tuple<int, int>(2, 1);
+	std::tuple<int, int> const BOMB_SPRITE_TEX_ROW_COL = std::tuple<int, int>(2, 0);
+	std::tuple<int, int> const UNKOWN_SPRITE_TEX_ROW_COL = std::tuple<int, int>(2, 1);
+	int const PLAY_AGAIN_TEX_WIDTH = 1024;
+	int const PLAY_AGAIN_TEX_HEIGHT = 620;
 
 	Renderer();
 	int init();
