@@ -45,6 +45,22 @@ int Renderer::init()
 	}
 
 	SDL_FreeSurface(tile_sprite_surface);
+
+	SDL_Surface *play_again_surface = IMG_Load("PlayAgain.png");
+	if(play_again_surface == NULL)
+	{
+		std::cout << "IMG_Load Error: " << IMG_GetError() << std::endl;
+		return 1;
+	}
+
+	play_again_tex = SDL_CreateTextureFromSurface(internal_renderer, play_again_surface);
+	if(play_again_tex == NULL) {
+		std::cout << "SDL_CreateTextureFromSurface Error: " << SDL_GetError() << std::endl;
+		SDL_FreeSurface(play_again_surface);
+		return 1;
+	}
+
+	SDL_FreeSurface(play_again_surface);
 	
 
 	return 0;
@@ -107,10 +123,10 @@ void Renderer::render_tiles(Board &board)
 			if(!std::get<2>(current_tile))
 			{
 				// Tile not visible render unkown
-				clipping_rect.x = SPRITE_TEX_WIDTH * std::get<1>(unknown_sprite_row_col);
-				clipping_rect.y = SPRITE_TEX_HEIGHT * std::get<0>(unknown_sprite_row_col);
-				clipping_rect.w = SPRITE_TEX_WIDTH;
-				clipping_rect.h = SPRITE_TEX_HEIGHT;
+				clipping_rect.x = TILE_SPRITE_TEX_WIDTH * std::get<1>(UNKOWN_SPRITE_TEX_ROW_COL);
+				clipping_rect.y = TILE_SPRITE_TEX_HEIGHT * std::get<0>(UNKOWN_SPRITE_TEX_ROW_COL);
+				clipping_rect.w = TILE_SPRITE_TEX_WIDTH;
+				clipping_rect.h = TILE_SPRITE_TEX_HEIGHT;
 				render_sprite(
 					internal_renderer,
 					tile_sprite_sheet,
@@ -124,10 +140,10 @@ void Renderer::render_tiles(Board &board)
 #endif
 			if(std::get<0>(current_tile) == Board::Tile::BOMB)
 			{
-				clipping_rect.x = SPRITE_TEX_WIDTH * std::get<1>(bomb_sprite_row_col);
-				clipping_rect.y = SPRITE_TEX_HEIGHT * std::get<0>(bomb_sprite_row_col);
-				clipping_rect.w = SPRITE_TEX_WIDTH;
-				clipping_rect.h = SPRITE_TEX_HEIGHT;
+				clipping_rect.x = TILE_SPRITE_TEX_WIDTH * std::get<1>(BOMB_SPRITE_TEX_ROW_COL);
+				clipping_rect.y = TILE_SPRITE_TEX_HEIGHT * std::get<0>(BOMB_SPRITE_TEX_ROW_COL);
+				clipping_rect.w = TILE_SPRITE_TEX_WIDTH;
+				clipping_rect.h = TILE_SPRITE_TEX_HEIGHT;
 				render_sprite(
 					internal_renderer,
 					tile_sprite_sheet,
@@ -139,10 +155,10 @@ void Renderer::render_tiles(Board &board)
 			else
 			{
 				int adjacency = std::get<1>(current_tile);
-				clipping_rect.x = SPRITE_TEX_WIDTH * std::get<1>(number_sprite_row_col[adjacency]);
-				clipping_rect.y = SPRITE_TEX_HEIGHT * std::get<0>(number_sprite_row_col[adjacency]);
-				clipping_rect.w = SPRITE_TEX_WIDTH;
-				clipping_rect.h = SPRITE_TEX_HEIGHT;
+				clipping_rect.x = TILE_SPRITE_TEX_WIDTH * std::get<1>(NUMBER_SPRITE_TEX_ROW_COL[adjacency]);
+				clipping_rect.y = TILE_SPRITE_TEX_HEIGHT * std::get<0>(NUMBER_SPRITE_TEX_ROW_COL[adjacency]);
+				clipping_rect.w = TILE_SPRITE_TEX_WIDTH;
+				clipping_rect.h = TILE_SPRITE_TEX_HEIGHT;
 				render_sprite(
 					internal_renderer,
 					tile_sprite_sheet,

@@ -38,6 +38,7 @@ private:
 	SDL_Window *window;
 	SDL_Renderer *internal_renderer;
 	SDL_Texture *tile_sprite_sheet;
+	SDL_Texture *play_again_tex;
 
 	std::tuple<int, int> get_sprite_dimensions(Board &board);
 	void render_board(Board &board);
