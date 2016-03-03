@@ -66,10 +66,16 @@ int Renderer::init()
 	return 0;
 }
 
-void Renderer::render(Board &board)
+void Renderer::render_in_game(Board &board)
 {
 	SDL_RenderClear(internal_renderer);
 	render_board(board);
+	SDL_RenderPresent(internal_renderer);
+}
+
+void Renderer::render_play_again() {
+	SDL_RenderClear(internal_renderer);
+	render_play_again_internal();
 	SDL_RenderPresent(internal_renderer);
 }
 
@@ -209,6 +215,13 @@ void Renderer::render_grid(Board &board)
 			}
 		}
 	}
+}
+
+void Renderer::render_play_again_internal()
+{
+	int w;
+	int h;
+	SDL_GetWindowSize(window, &w, &h);
 }
 
 void Renderer::render_sprite (

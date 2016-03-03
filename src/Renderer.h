@@ -29,7 +29,8 @@ public:
 
 	Renderer();
 	int init();
-	void render(Board &board);
+	void render_in_game(Board &board);
+	void render_play_again();
 	void quit();
 
 	std::tuple<int, int> get_window_dimensions() const;
@@ -44,6 +45,7 @@ private:
 	void render_board(Board &board);
 	void render_tiles(Board &board);
 	void render_grid(Board &board);
+	void render_play_again_internal();
 	void render_sprite(
 		SDL_Renderer *renderer,
 		SDL_Texture *sprite_sheet,
