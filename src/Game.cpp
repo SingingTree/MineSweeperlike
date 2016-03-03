@@ -57,7 +57,7 @@ int Game::main_loop()
 		{
 			running = handle_input(event);
 		}
-		renderer.render(board);
+		renderer.render_in_game(board);
 	}
 
 	return 0;
