@@ -15,7 +15,7 @@ public:
 	int main_loop();
 
 private:
-	enum GameState { IN_GAME_START_MENU, IN_GAME, IN_RESTART_PROMPT};
+	enum GameState { IN_GAME_START_MENU, IN_GAME, IN_GAME_ENDED_VIEW, IN_PLAY_AGAIN_PROMPT};
 	GameState gameState;
 	Board board;
 	Renderer renderer;

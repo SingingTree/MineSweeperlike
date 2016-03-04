@@ -32,6 +32,7 @@ private:
 	void setup_board();
 	void make_all_visible();
 	void flood_fill_discover(unsigned int row, unsigned int col);
+	bool is_bomb_visible() const;
 	unsigned int get_num_visible_tiles() const;
 	unsigned int get_num_non_visible_tiles() const;
 	unsigned int coordinates_to_index(unsigned int row, unsigned int col) const;

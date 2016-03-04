@@ -57,7 +57,15 @@ int Game::main_loop()
 		{
 			running = handle_input(event);
 		}
-		renderer.render_in_game(board);
+		switch (gameState)
+		{
+		case IN_GAME:
+			renderer.render_in_game(board);
+			break;
+		case IN_PLAY_AGAIN_PROMPT:
+			renderer.render_play_again();
+			break;
+		}
 	}
 
 	return 0;

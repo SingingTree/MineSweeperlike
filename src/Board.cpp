@@ -66,7 +66,11 @@ Board::SelectionResult Board::select_tile(int row, int col)
 
 Board::GameState Board::get_game_state() const
 {
-	if(get_num_non_visible_tiles() == num_bombs)
+	if(is_bomb_visible())
+	{
+		return GameState::LOST;
+	}
+	else if(get_num_non_visible_tiles() == num_bombs)
 	{
 		return GameState::WON;
 	}
@@ -186,6 +190,18 @@ void Board::flood_fill_discover(unsigned int row, unsigned int col)
 			}
 		}
 	}
+}
+
+bool Board::is_bomb_visible() const
+{
+	for(unsigned int i = 0; i < board_width * board_height; ++i)
+	{
+		if(bomb_map.at(i) == BOMB && visiblity_map.at(i))
+		{
+			return true;
+		}
+	}
+	return false;
 }
 
 unsigned int Board::get_num_visible_tiles() const
