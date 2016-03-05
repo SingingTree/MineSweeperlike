@@ -19,13 +19,25 @@ int Game::init()
 // Returns a bool indicating if the game should continue (true) or terminate (false)
 bool Game::handle_input(SDL_Event &event)
 {
+	switch(gameState)
+	{
+	case IN_GAME:
+		return handle_in_game_input(event);
+	case IN_PLAY_AGAIN_PROMPT:
+		return false;
+	}
+	return false;
+}
+
+bool Game::handle_in_game_input(SDL_Event &event)
+{
 	// Close window
 	if(event.type == SDL_QUIT)
 	{
 		return false;
 	}
 	// Presses any key
-	if(event.type == SDL_KEYDOWN)
+	else if(event.type == SDL_KEYDOWN)
 	{
 		switch(inputHandler.handle_key(event))
 		{
@@ -34,7 +46,7 @@ bool Game::handle_input(SDL_Event &event)
 		}
 	}
 	// Click the mouse
-	if(event.type == SDL_MOUSEBUTTONDOWN)
+	else if(event.type == SDL_MOUSEBUTTONDOWN)
 	{
 		std::tuple<int, int> row_and_col = inputHandler.row_col_from_click_coordinates(
 			board.get_height(),

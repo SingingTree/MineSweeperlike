@@ -22,6 +22,8 @@ private:
 	InputHandler inputHandler;
 
 	bool handle_input(SDL_Event &event);
+	bool handle_in_game_input(SDL_Event &event);
+
 };
 
 #endif // GAME_H
