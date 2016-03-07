@@ -23,6 +23,8 @@ private:
 
 	bool handle_input(SDL_Event &event);
 	bool handle_in_game_input(SDL_Event &event);
+	bool handle_play_again_input(SDL_Event &event);
+	void render();
 
 };
 

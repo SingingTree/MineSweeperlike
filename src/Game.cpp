@@ -24,7 +24,7 @@ bool Game::handle_input(SDL_Event &event)
 	case IN_GAME:
 		return handle_in_game_input(event);
 	case IN_PLAY_AGAIN_PROMPT:
-		return false;
+		return handle_play_again_input(event);
 	}
 	return false;
 }
@@ -59,6 +59,43 @@ bool Game::handle_in_game_input(SDL_Event &event)
 	return true;
 }
 
+bool Game::handle_play_again_input(SDL_Event &event)
+{
+	// Close window
+	if(event.type == SDL_QUIT)
+	{
+		return false;
+	}
+	// Presses any key
+	else if(event.type == SDL_KEYDOWN)
+	{
+		switch(inputHandler.handle_key(event))
+		{
+		case InputHandler::Action::QUIT:
+			return false;
+		}
+	}
+	return true;
+}
+
+void Game::render()
+{
+	switch(gameState)
+	{
+	case IN_GAME:
+		renderer.render_in_game(board);
+		if(board.get_game_state() == Board::GameState::WON ||
+			board.get_game_state() == Board::GameState::LOST)
+		{
+			gameState = IN_PLAY_AGAIN_PROMPT;
+		}
+		break;
+	case IN_PLAY_AGAIN_PROMPT:
+		renderer.render_play_again();
+		break;
+	}
+}
+
 int Game::main_loop()
 {
 	bool running = true;
@@ -69,15 +106,7 @@ int Game::main_loop()
 		{
 			running = handle_input(event);
 		}
-		switch (gameState)
-		{
-		case IN_GAME:
-			renderer.render_in_game(board);
-			break;
-		case IN_PLAY_AGAIN_PROMPT:
-			renderer.render_play_again();
-			break;
-		}
+		render();
 	}
 
 	return 0;
