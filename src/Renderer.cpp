@@ -108,7 +108,7 @@ std::tuple<int, int> Renderer::get_window_dimensions() const
 	return std::tuple<int, int>(w, h);
 }
 
-std::tuple<int, int> Renderer::get_sprite_dimensions(Board &board)
+std::tuple<int, int> Renderer::get_tile_sprite_dimensions(Board &board)
 {
 	int w;
 	int h;
@@ -119,8 +119,8 @@ std::tuple<int, int> Renderer::get_sprite_dimensions(Board &board)
 void Renderer::render_tiles(Board &board)
 {
 	SDL_Rect clipping_rect;
-	int sprite_screen_width = std::get<0>(get_sprite_dimensions(board));
-	int sprite_screen_height = std::get<1>(get_sprite_dimensions(board));
+	int sprite_screen_width = std::get<0>(get_tile_sprite_dimensions(board));
+	int sprite_screen_height = std::get<1>(get_tile_sprite_dimensions(board));
 	for(int row = 0; row < board.get_height(); ++row)
 	{
 		for(int col = 0; col < board.get_width(); ++col) {
@@ -128,12 +128,12 @@ void Renderer::render_tiles(Board &board)
 #ifndef RENDERER_DEBUG_SHOW_ALL
 			if(!std::get<2>(current_tile))
 			{
-				// Tile not visible render unkown
+				// Tile not visible render unknown
 				clipping_rect.x = TILE_SPRITE_TEX_WIDTH * std::get<1>(UNKOWN_SPRITE_TEX_ROW_COL);
 				clipping_rect.y = TILE_SPRITE_TEX_HEIGHT * std::get<0>(UNKOWN_SPRITE_TEX_ROW_COL);
 				clipping_rect.w = TILE_SPRITE_TEX_WIDTH;
 				clipping_rect.h = TILE_SPRITE_TEX_HEIGHT;
-				render_sprite(
+				render_tile_sprite(
 					internal_renderer,
 					tile_sprite_sheet,
 					&clipping_rect,
@@ -150,7 +150,7 @@ void Renderer::render_tiles(Board &board)
 				clipping_rect.y = TILE_SPRITE_TEX_HEIGHT * std::get<0>(BOMB_SPRITE_TEX_ROW_COL);
 				clipping_rect.w = TILE_SPRITE_TEX_WIDTH;
 				clipping_rect.h = TILE_SPRITE_TEX_HEIGHT;
-				render_sprite(
+				render_tile_sprite(
 					internal_renderer,
 					tile_sprite_sheet,
 					&clipping_rect,
@@ -165,7 +165,7 @@ void Renderer::render_tiles(Board &board)
 				clipping_rect.y = TILE_SPRITE_TEX_HEIGHT * std::get<0>(NUMBER_SPRITE_TEX_ROW_COL[adjacency]);
 				clipping_rect.w = TILE_SPRITE_TEX_WIDTH;
 				clipping_rect.h = TILE_SPRITE_TEX_HEIGHT;
-				render_sprite(
+				render_tile_sprite(
 					internal_renderer,
 					tile_sprite_sheet,
 					&clipping_rect,
@@ -222,9 +222,40 @@ void Renderer::render_play_again_internal()
 	int w;
 	int h;
 	SDL_GetWindowSize(window, &w, &h);
+	SDL_Rect clipping_rect;
+	clipping_rect.x = 0;
+	clipping_rect.y = 0;
+	clipping_rect.w = PLAY_AGAIN_TEX_WIDTH;
+	clipping_rect.h = PLAY_AGAIN_TEX_HEIGHT;
+	render_sprite(
+		internal_renderer,
+		play_again_tex,
+		&clipping_rect,
+		0,
+		0,
+		w,
+		h);
 }
 
-void Renderer::render_sprite (
+void Renderer::render_sprite(
+	SDL_Renderer *renderer,
+	SDL_Texture *texture,
+	SDL_Rect *clipping_rect,
+	int x,
+	int y,
+	int w,
+	int h
+	)
+{
+	SDL_Rect destination;
+	destination.x = x;
+	destination.y = y;
+	destination.w = w;
+	destination.h = h;
+	SDL_RenderCopy(renderer, texture, clipping_rect, &destination);
+}
+
+void Renderer::render_tile_sprite (
 	SDL_Renderer *renderer,
 	SDL_Texture *sprite_sheet,
 	SDL_Rect *clipping_rect,
@@ -235,8 +266,8 @@ void Renderer::render_sprite (
 	SDL_Rect destination;
 	destination.x = x;
 	destination.y = y;
-	std::tuple<int, int> destination_dimensions = get_sprite_dimensions(board);
-	destination.w = std::get<0>(destination_dimensions);
-	destination.h = std::get<1>(destination_dimensions);
-	SDL_RenderCopy(renderer, sprite_sheet, clipping_rect, &destination);
+	std::tuple<int, int> destination_dimensions = get_tile_sprite_dimensions(board);
+	int w = std::get<0>(destination_dimensions);
+	int h = std::get<1>(destination_dimensions);
+	render_sprite(renderer, sprite_sheet, clipping_rect, x, y, w, h);
 }

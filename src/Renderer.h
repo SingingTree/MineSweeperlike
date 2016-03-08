@@ -41,12 +41,21 @@ private:
 	SDL_Texture *tile_sprite_sheet;
 	SDL_Texture *play_again_tex;
 
-	std::tuple<int, int> get_sprite_dimensions(Board &board);
+	std::tuple<int, int> get_tile_sprite_dimensions(Board &board);
 	void render_board(Board &board);
 	void render_tiles(Board &board);
 	void render_grid(Board &board);
 	void render_play_again_internal();
 	void render_sprite(
+		SDL_Renderer *renderer,
+		SDL_Texture *sprite,
+		SDL_Rect *clipping_rect,
+		int x,
+		int y,
+		int w,
+		int h
+		);
+	void render_tile_sprite(
 		SDL_Renderer *renderer,
 		SDL_Texture *sprite_sheet,
 		SDL_Rect *clipping_rect,
