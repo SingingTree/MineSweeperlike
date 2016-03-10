@@ -40,6 +40,8 @@ private:
 	SDL_Renderer *internal_renderer;
 	SDL_Texture *tile_sprite_sheet;
 	SDL_Texture *play_again_tex;
+	SDL_Texture *yeah_tex;
+	SDL_Texture *nah_tex;
 
 	std::tuple<int, int> get_tile_sprite_dimensions(Board &board);
 	void render_board(Board &board);

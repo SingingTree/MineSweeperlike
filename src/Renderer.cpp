@@ -61,6 +61,38 @@ int Renderer::init()
 	}
 
 	SDL_FreeSurface(play_again_surface);
+
+	SDL_Surface *yeah_surface = IMG_Load("Yeah.png");
+	if(play_again_surface == NULL)
+	{
+		std::cout << "IMG_Load Error: " << IMG_GetError() << std::endl;
+		return 1;
+	}
+
+	yeah_tex = SDL_CreateTextureFromSurface(internal_renderer, yeah_surface);
+	if(play_again_tex == NULL) {
+		std::cout << "SDL_CreateTextureFromSurface Error: " << SDL_GetError() << std::endl;
+		SDL_FreeSurface(play_again_surface);
+		return 1;
+	}
+
+	SDL_FreeSurface(yeah_surface);
+
+	SDL_Surface *nah_surface = IMG_Load("Nah.png");
+	if(play_again_surface == NULL)
+	{
+		std::cout << "IMG_Load Error: " << IMG_GetError() << std::endl;
+		return 1;
+	}
+
+	nah_tex = SDL_CreateTextureFromSurface(internal_renderer, nah_surface);
+	if(play_again_tex == NULL) {
+		std::cout << "SDL_CreateTextureFromSurface Error: " << SDL_GetError() << std::endl;
+		SDL_FreeSurface(play_again_surface);
+		return 1;
+	}
+
+	SDL_FreeSurface(nah_surface);
 	
 
 	return 0;
@@ -219,22 +251,28 @@ void Renderer::render_grid(Board &board)
 
 void Renderer::render_play_again_internal()
 {
+	SDL_SetRenderDrawColor(internal_renderer, 255, 255, 255, 255);
+	SDL_RenderClear(internal_renderer);
+
 	int w;
 	int h;
 	SDL_GetWindowSize(window, &w, &h);
+
+	// Calculate clipping rect
 	SDL_Rect clipping_rect;
 	clipping_rect.x = 0;
 	clipping_rect.y = 0;
 	clipping_rect.w = PLAY_AGAIN_TEX_WIDTH;
 	clipping_rect.h = PLAY_AGAIN_TEX_HEIGHT;
+
 	render_sprite(
 		internal_renderer,
 		play_again_tex,
 		&clipping_rect,
-		0,
-		0,
-		w,
-		h);
+		w * .2f,
+		h * .2f,
+		w * .6f,
+		h * .4f);
 }
 
 void Renderer::render_sprite(
