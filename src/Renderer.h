@@ -26,6 +26,10 @@ public:
 	std::tuple<int, int> const UNKOWN_SPRITE_TEX_ROW_COL = std::tuple<int, int>(2, 1);
 	int const PLAY_AGAIN_TEX_WIDTH = 1024;
 	int const PLAY_AGAIN_TEX_HEIGHT = 620;
+	int const YEAH_TEX_WIDTH = 1024;
+	int const YEAH_TEX_HEIGHT = 320;
+	int const NAH_TEX_WIDTH = 1024;
+	int const NAH_TEX_HEIGHT = 320;
 
 	Renderer();
 	int init();

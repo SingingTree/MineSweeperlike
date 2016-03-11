@@ -273,6 +273,28 @@ void Renderer::render_play_again_internal()
 		h * .2f,
 		w * .6f,
 		h * .4f);
+
+	clipping_rect.w = YEAH_TEX_WIDTH;
+	clipping_rect.h = YEAH_TEX_HEIGHT;
+	render_sprite(
+		internal_renderer,
+		yeah_tex,
+		&clipping_rect,
+		w * .2f,
+		h * .6f,
+		w * .3f,
+		h * .3f);
+
+	clipping_rect.w = NAH_TEX_WIDTH;
+	clipping_rect.h = NAH_TEX_HEIGHT;
+	render_sprite(
+		internal_renderer,
+		nah_tex,
+		&clipping_rect,
+		w * .5f,
+		h * .6f,
+		w * .3f,
+		h * .3f);
 }
 
 void Renderer::render_sprite(
