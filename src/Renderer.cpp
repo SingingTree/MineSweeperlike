@@ -63,32 +63,32 @@ int Renderer::init()
 	SDL_FreeSurface(play_again_surface);
 
 	SDL_Surface *yeah_surface = IMG_Load("Yeah.png");
-	if(play_again_surface == NULL)
+	if(yeah_surface == NULL)
 	{
 		std::cout << "IMG_Load Error: " << IMG_GetError() << std::endl;
 		return 1;
 	}
 
 	yeah_tex = SDL_CreateTextureFromSurface(internal_renderer, yeah_surface);
-	if(play_again_tex == NULL) {
+	if(yeah_tex == NULL) {
 		std::cout << "SDL_CreateTextureFromSurface Error: " << SDL_GetError() << std::endl;
-		SDL_FreeSurface(play_again_surface);
+		SDL_FreeSurface(yeah_surface);
 		return 1;
 	}
 
 	SDL_FreeSurface(yeah_surface);
 
 	SDL_Surface *nah_surface = IMG_Load("Nah.png");
-	if(play_again_surface == NULL)
+	if(nah_surface == NULL)
 	{
 		std::cout << "IMG_Load Error: " << IMG_GetError() << std::endl;
 		return 1;
 	}
 
 	nah_tex = SDL_CreateTextureFromSurface(internal_renderer, nah_surface);
-	if(play_again_tex == NULL) {
+	if(nah_tex == NULL) {
 		std::cout << "SDL_CreateTextureFromSurface Error: " << SDL_GetError() << std::endl;
-		SDL_FreeSurface(play_again_surface);
+		SDL_FreeSurface(nah_surface);
 		return 1;
 	}
 
